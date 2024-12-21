@@ -29,6 +29,7 @@ const Form = () => {
           setIsLoggedin(true);
           toast.success(data.message);
           console.log(data.message);
+          //We are calling the get user data here to set the userData after the page redirects. useEffect esto case ma kam gardaina since we are redirecting to the homepage. and when we re direct , the userData state is still empty. Ki ta aba page pheri refresh hannu paro ki ta yei call garera useData lai populate hannu paro
           getUserData();
           navigate("/");
         } else {
@@ -41,6 +42,7 @@ const Form = () => {
         });
         if (data.success) {
           setIsLoggedin(true);
+          //We are calling the get user data here to set the userData after the page redirects. Since the useEffect inside the context only fires onece the <App/> component first mounts. And react router doesnot cause a component to re mount Only a refresh to the page will.
           getUserData();
           navigate("/");
         } else {
