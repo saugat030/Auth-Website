@@ -1,9 +1,11 @@
 import React from "react";
-
+import NavBar from "./NavBar";
+import Header from "./Header";
 const Homepage = () => {
   return (
-    <div className="text-center bg-red-200">
-      <h1>Hello , Guest</h1>
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <NavBar />
+      <Header></Header>
     </div>
   );
 };
