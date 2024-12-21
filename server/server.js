@@ -234,6 +234,7 @@ app.get("/user/data", userAuth, async (req, res) => {
   }
 });
 
+//WOWOWO
 app.listen(3000, () => {
   console.log("Server running on port 3000");
 });
