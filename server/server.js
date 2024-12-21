@@ -8,8 +8,9 @@ import jwt from "jsonwebtoken";
 const app = express();
 const saltRounds = 10;
 const jwtSecret = "TOP_SECRET";
+const allowedOrigins = ["http://localhost:5173", "http://localhost:5174"];
 
-app.use(cors({ credentials: true })); //allows us to send cookies as the response from the express app
+app.use(cors({ origin: allowedOrigins, credentials: true })); //allows us to send cookies as the response from the express app
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.json());

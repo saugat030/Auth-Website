@@ -1,10 +1,51 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import NavBar from "./NavBar";
+import { AppContent } from "../context/AppContext";
+import axios from "axios";
+import { toast } from "react-toastify";
+
 const Form = (props) => {
+  const navigate = useNavigate();
+  const { backendUrl, setIsLoggedin } = useContext(AppContent);
   const [state, setState] = useState("Sign Up");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const onSubmitHandler = async (e) => {
+    try {
+      e.preventDefault();
+      axios.defaults.withCredentials = true;
+      //Send cookie so we send withCrediantials
+      if (state == "Sign Up") {
+        const data = await axios.post(backendUrl + "/api/register", {
+          name,
+          email,
+          password,
+        });
+        if (data.success) {
+          //.success is the object we created in the backend ourself.
+          setIsLoggedin(true);
+          navigate("/");
+        } else {
+          toast.error(data.message);
+        }
+      } else {
+        const data = await axios.post(backendUrl + "/api/login", {
+          email,
+          password,
+        });
+        if (data.success) {
+          setIsLoggedin(true);
+          navigate("/");
+        } else {
+          toast.error(data.message);
+        }
+      }
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
   return (
     <>
       <NavBar />
@@ -18,7 +59,7 @@ const Form = (props) => {
               ? "Create your account"
               : "Login to your account"}
           </p>
-          <form action="">
+          <form action="" onSubmit={onSubmitHandler}>
             {state == "Sign Up" && (
               <div className="p-2">
                 <input
