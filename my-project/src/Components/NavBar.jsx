@@ -2,11 +2,25 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContent } from "../context/AppContext";
 import { useContext } from "react";
+import axios from "axios";
+
 const NavBar = () => {
   const navigate = useNavigate();
+
   const { userData, backendUrl, setUserData, setIsLoggedin } =
     useContext(AppContent);
 
+  const logout = async () => {
+    try {
+      axios.defaults.withCredentials = true;
+      const { data } = await axios.post(backendUrl + "/logout");
+      data.success && setIsLoggedin(false);
+      data.success && setUserData(false);
+      navigate("/");
+    } catch (err) {
+      alert(err.message);
+    }
+  };
   return (
     <div className="w-full flex justify-between items-center p-6 px-24 bg-pink-200 absolute top-0">
       <figure className="w-28">
@@ -19,7 +33,9 @@ const NavBar = () => {
       {userData ? (
         <div className="bg-green-400 text-black p-2 rounded-xl">
           <h1>{userData.name}</h1>
-          <button className="p-2">Logout</button>
+          <button className="p-2" onClick={logout}>
+            Logout
+          </button>
         </div>
       ) : (
         <button

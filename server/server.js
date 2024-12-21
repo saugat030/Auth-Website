@@ -154,7 +154,7 @@ app.post("/login", async (req, res) => {
             res.cookie("token", token, {
               httpOnly: true,
               secure: false,
-              sameSite: "none",
+              sameSite: "lax",
               maxAge: 7 * 24 * 60 * 1000,
             });
             return res.json({
@@ -187,7 +187,7 @@ app.post("/logout", async (req, res) => {
     res.clearCookie("token", {
       httpOnly: true,
       secure: false,
-      sameSite: "none",
+      sameSite: "lax",
     });
     return res.json({ success: true, message: "Logged Out." });
   } catch (error) {

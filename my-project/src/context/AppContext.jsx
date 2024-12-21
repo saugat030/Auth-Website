@@ -6,6 +6,8 @@ export const AppContent = createContext();
 // http://localhost:3000
 
 export const AppContextProvider = (props) => {
+  axios.defaults.withCredentials = true;
+
   const backendUrl = "http://localhost:3000";
 
   const [isLoggedin, setIsLoggedin] = useState(false);
