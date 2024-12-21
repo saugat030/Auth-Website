@@ -101,7 +101,7 @@ app.post("/register", async (req, res) => {
           res.cookie("token", token, {
             httpOnly: true,
             secure: false,
-            sameSite: "none",
+            sameSite: "lax",
             maxAge: 7 * 24 * 60 * 1000,
           });
           return res.json({
@@ -197,7 +197,7 @@ app.post("/logout", async (req, res) => {
 
 //Check if user is logged in currently :
 //also add the userAuth middleware that checks if the user is loggedin.
-app.post("/isAuthenticated", userAuth, async (req, res) => {
+app.get("/isAuthenticated", userAuth, async (req, res) => {
   try {
     //this function will only be reached if the userAuth middleware calls it. Thats why we can say code ya samma pugyo vaney pani userlogged in nai hunxa.
     return res.json({ success: true });

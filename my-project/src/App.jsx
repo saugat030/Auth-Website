@@ -11,8 +11,7 @@ function App() {
       <ToastContainer />
       <Routes>
         <Route path="/" element={<Homepage />}></Route>
-        <Route path="/signup" element={<LoginPage name="signUp" />}></Route>
-        <Route path="/login" element={<LoginPage name="login" />}></Route>
+        <Route path="/login" element={<LoginPage />}></Route>
         {/* <Route path="/email-verify" element={<EmailVerifyPage />}></Route>
         <Route path="/reset-password" element={<ResetPasswordPage />}></Route> */}
       </Routes>

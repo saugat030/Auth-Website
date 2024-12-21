@@ -3,10 +3,10 @@ import NavBar from "./NavBar";
 import { AppContent } from "../context/AppContext";
 import axios from "axios";
 import { toast } from "react-toastify";
-
-const Form = (props) => {
+import { useNavigate } from "react-router-dom";
+const Form = () => {
   const navigate = useNavigate();
-  const { backendUrl, setIsLoggedin } = useContext(AppContent);
+  const { backendUrl, setIsLoggedin, getUserData } = useContext(AppContent);
   const [state, setState] = useState("Sign Up");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -18,25 +18,30 @@ const Form = (props) => {
       axios.defaults.withCredentials = true;
       //Send cookie so we send withCrediantials
       if (state == "Sign Up") {
-        const data = await axios.post(backendUrl + "/api/register", {
+        const { data } = await axios.post(backendUrl + "/register", {
           name,
           email,
           password,
         });
+        console.log(data.success);
         if (data.success) {
           //.success is the object we created in the backend ourself.
           setIsLoggedin(true);
+          toast.success(data.message);
+          console.log(data.message);
+          getUserData();
           navigate("/");
         } else {
           toast.error(data.message);
         }
       } else {
-        const data = await axios.post(backendUrl + "/api/login", {
+        const { data } = await axios.post(backendUrl + "/login", {
           email,
           password,
         });
         if (data.success) {
           setIsLoggedin(true);
+          getUserData();
           navigate("/");
         } else {
           toast.error(data.message);
@@ -82,7 +87,7 @@ const Form = (props) => {
                 name=""
                 id=""
                 onChange={(e) => setEmail(e.target.value)}
-                value={name}
+                value={email}
                 required
               />
             </div>
@@ -94,7 +99,7 @@ const Form = (props) => {
                 name=""
                 id=""
                 onChange={(e) => setPassword(e.target.value)}
-                value={name}
+                value={password}
                 required
               />
             </div>

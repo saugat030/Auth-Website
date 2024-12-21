@@ -1,8 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
+import { AppContent } from "../context/AppContext";
+import { useContext } from "react";
 const NavBar = () => {
   const navigate = useNavigate();
+  const { userData, backendUrl, setUserData, setIsLoggedin } =
+    useContext(AppContent);
+
   return (
     <div className="w-full flex justify-between items-center p-6 px-24 bg-pink-200 absolute top-0">
       <figure className="w-28">
@@ -12,14 +16,21 @@ const NavBar = () => {
           className="w-full"
         />
       </figure>
-      <button
-        onClick={() => {
-          navigate("/login");
-        }}
-        className="border flex items-center gap-2 bg-purple-500 p-2 rounded-xl"
-      >
-        Login
-      </button>
+      {userData ? (
+        <div className="bg-green-400 text-black p-2 rounded-xl">
+          <h1>{userData.name}</h1>
+          <button className="p-2">Logout</button>
+        </div>
+      ) : (
+        <button
+          onClick={() => {
+            navigate("/login");
+          }}
+          className="border flex items-center gap-2 bg-purple-500 p-2 rounded-xl"
+        >
+          Login
+        </button>
+      )}
     </div>
   );
 };
